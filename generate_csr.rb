@@ -14,23 +14,23 @@ require 'optparse'
       options[:common_name] = name
     end
 
-    options[:organization] = "Blizzard Entertainment Inc"
+    options[:organization] = nil
     opts.on('-o', '--organization NAME', 'Legal name of the Organization Default: Blizzard Entertainment Inc.') do |org|
       options[:organization] = org
     end
 
-    options[:country] = "US"
-    opts.on('-c', '--country NAME', 'Two letter code for the Country Default: US') do |c|
+    options[:country] = nil
+    opts.on('-c', '--country NAME', 'REQUIRED: Two letter code for the Country Default: US') do |c|
       options[:country] = c
     end
 
-    options[:state_name] = "California"
-    opts.on('-s', '--state_name NAME', 'State or Region do not abbreviate Default: California') do |state|
+    options[:state_name] = nil
+    opts.on('-s', '--state_name NAME', 'REQUIRED: State or Region do not abbreviate Default: California') do |state|
       options[:state_name] = state
     end
 
-    options[:locality] = "Irvine"
-    opts.on('-l', '--locality NAME', 'City do not abbreviate Default: Irvine') do |loc|
+    options[:locality] = nil
+    opts.on('-l', '--locality NAME', 'REQUIRED: City do not abbreviate Default: Irvine') do |loc|
       options[:locality] = loc
     end
 
