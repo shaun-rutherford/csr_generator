@@ -94,14 +94,16 @@ require 'optparse'
     elsif @domain_list.empty?
       abort("You must provide a SAN entry even if it's the common name, run -h for options")
 
-    elsif @passphrase.empty?
-      puts "You must provide an encryption password: "
-      puts "Password: "
-      @passphrase = STDIN.noecho(&:gets).chomp
-
     elsif @email.empty?
       abort("You must provide an email address to send the private key, run -h for options")
     end
+  end
+
+# PROMPT FOR PASSWORD IF NOT PROVIDED ON THE CLI
+  if @passphrase.empty?
+      puts "You must provide an encryption password: "
+      puts "Password: "
+      @passphrase = STDIN.noecho(&:gets).chomp
   end
 
 csr = Csr_creation.new
