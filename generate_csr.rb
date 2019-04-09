@@ -106,15 +106,15 @@ require 'optparse'
       @passphrase = STDIN.noecho(&:gets).chomp
   end
 
-csr = Csr_creation.new
+csr = Csr.new
 
 if @decrypt == true and ! @filename_decrypt.empty?
-  csr.decrypt_data(@filename_decrypt, @passphrase)
+  csr.decrypt(@filename_decrypt, @passphrase)
   exit 0
 end
 
-csr.generate_csr(@common_name, @organization, @country, @state_name, @locality, @domain_list)
+csr.generate(@common_name, @organization, @country, @state_name, @locality, @domain_list)
 
-csr.encrypt_data(@filename, @passphrase)
+csr.encrypt(@filename, @passphrase)
 
 csr.mail(@email, @filename_encrypted)
