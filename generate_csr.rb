@@ -59,6 +59,11 @@ require 'optparse'
       options[:private_key] = private
     end
 
+    options[:passphrase_file] = nil
+    opts.on('-z', '--passfile PASSFILE', 'File with password in to be used to encrypt private key') do |passfile|
+      options[:passphrase_file] = passfile
+    end
+
     opts.on( '-h', '--help', 'Display this screen' ) do
       puts opts
       exit
@@ -79,6 +84,7 @@ require 'optparse'
   @decrypt            = options[:decrypt]
   @filename_decrypt   = "#{options[:private_key]}"
   @domain_list        = []
+  @passphrase_file    = "#{options[:passphrase_file]}"  
 
 # WRITE OPTIONS[:DOMAIN_LIST] ENTRIES INTO NEW INSTANCE ARRAY
 
@@ -99,11 +105,22 @@ require 'optparse'
     end
   end
 
+# CHECK FOR PASSWORD FILE AND READ INTO PASSPHRASE VARIABLE
+  unless @passphrase_file.empty?
+    @passphrase = File.read("#{@passphrase_file}").chomp
+  end
+
 # PROMPT FOR PASSWORD IF NOT PROVIDED ON THE CLI
   if @passphrase.empty?
       puts "You must provide an encryption password: "
       puts "Password: "
       @passphrase = STDIN.noecho(&:gets).chomp
+  end
+
+# REQUIRE 16 CHARACTERS FOR PRIVATE KEY PASSPHRASE
+  if @passphrase.length <= 15
+    puts "Private key must be 16 characters or more"
+    exit 1
   end
 
 csr = Csr.new
